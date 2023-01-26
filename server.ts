@@ -20,7 +20,7 @@ function main () {
       console.error(err)
       return
     }
-    console.log(`Your server has started on port ${port}`)
+    console.log(`Your server has started on port ${port}`) 
     server.start()
   })
 }
@@ -29,8 +29,25 @@ function getServer(){
   const server = new grpc.Server()
   server.addService(randomPackage.Random.service, {
     "PingPong": (req, res) => {
-      console.log(req, res) 
-    } 
+      console.log(req.request) 
+      res(null, {message: "Pong"})
+    }, 
+     RandomNumbers: (call) => {
+      const { maxVal = 10 } = call.request
+      console.log(maxVal)
+      
+      let runCount = 0
+      const id = setInterval(() => {
+        runCount = ++runCount
+        
+        call.write({num: Math.floor(Math.random() * maxVal )})
+        if (runCount >= 10) {
+          clearInterval(id)
+          call.end()
+        }
+      }, 500)
+
+     }
   } as RandomHandlers)
   return server
 }
