@@ -1,0 +1,11 @@
+syntax = "proto3"
+
+package randomPackage 
+
+service Random {
+  rpc PingPong(PingRequest) return (PingResposne) {}
+}
+
+message PingRequest {
+  
+}
