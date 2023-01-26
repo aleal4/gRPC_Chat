@@ -32,11 +32,25 @@ function onClientReady() {
   //   console.log(result)
   // })
 
-  const stream = client.RandomNumbers({maxVal: 85})
-  stream.on("data", (chunk) => {
-    console.log(chunk)
+  // const stream = client.RandomNumbers({maxVal: 85})
+  // stream.on("data", (chunk) => {
+  //   console.log(chunk)
+  // })
+  // stream.on("end", () => {
+  //   console.log("communication ended")
+  // })
+
+  const stream = client.TodoList((err, result) => {
+    if (err) {
+      console.log(err)
+      return
+    }
+    console.log(result)
   })
-  stream.on("end", () => {
-    console.log("communication ended")
-  })
+  stream.write({todo: "walk the cat", status: "Never"})
+  stream.write({todo: "walk the dog", status: "Doing"})
+  stream.write({todo: "get a job", status: "On it"})
+  stream.write({todo: "feed the dog", status: "Done"})
+
+  stream.end()
 }
