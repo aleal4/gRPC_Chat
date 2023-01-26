@@ -1,11 +1,15 @@
-syntax = "proto3"
+syntax = "proto3";
 
-package randomPackage 
+package randomPackage; 
 
 service Random {
-  rpc PingPong(PingRequest) return (PingResposne) {}
+  rpc PingPong(PingRequest) returns (PongRequest) {}
 }
 
 message PingRequest {
-  
+  string message = 1; 
+}
+
+message PongRequest {
+  string message = 1;
 }
